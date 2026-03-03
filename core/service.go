@@ -14,6 +14,7 @@ import (
 	"time"
 	"unicode"
 
+	"github.com/bogem/id3v2"
 	"github.com/guohuiyuan/music-lib/bilibili"
 	"github.com/guohuiyuan/music-lib/fivesing"
 	"github.com/guohuiyuan/music-lib/jamendo"
@@ -611,30 +612,11 @@ func GetSourceDescription(source string) string {
 // ID3v2 元数据内嵌（支持 Web & CLI 下载）
 // ==========================================
 
-func EncodeSyncSafeInt(v int) [4]byte {
-	if v < 0 {
-		v = 0
-	}
-	return [4]byte{
-		byte((v >> 21) & 0x7F),
-		byte((v >> 14) & 0x7F),
-		byte((v >> 7) & 0x7F),
-		byte(v & 0x7F),
-	}
-}
-
-func DecodeSyncSafeInt(b []byte) int {
-	if len(b) < 4 {
-		return 0
-	}
-	return int(b[0]&0x7F)<<21 | int(b[1]&0x7F)<<14 | int(b[2]&0x7F)<<7 | int(b[3]&0x7F)
-}
-
-func StripID3v2Prefix(audioData []byte) []byte {
+func stripID3v2Prefix(audioData []byte) []byte {
 	if len(audioData) < 10 || string(audioData[:3]) != "ID3" {
 		return audioData
 	}
-	tagSize := DecodeSyncSafeInt(audioData[6:10])
+	tagSize := int(audioData[6]&0x7F)<<21 | int(audioData[7]&0x7F)<<14 | int(audioData[8]&0x7F)<<7 | int(audioData[9]&0x7F)
 	total := 10 + tagSize
 	if audioData[5]&0x10 != 0 {
 		total += 10
@@ -645,29 +627,7 @@ func StripID3v2Prefix(audioData []byte) []byte {
 	return audioData[total:]
 }
 
-func BuildID3v24Frame(frameID string, payload []byte) []byte {
-	if len(frameID) != 4 || len(payload) == 0 {
-		return nil
-	}
-	var frame bytes.Buffer
-	frame.WriteString(frameID)
-	sz := EncodeSyncSafeInt(len(payload))
-	frame.Write(sz[:])
-	frame.Write([]byte{0x00, 0x00})
-	frame.Write(payload)
-	return frame.Bytes()
-}
-
-func BuildTextFrame(frameID string, text string) []byte {
-	text = strings.TrimSpace(text)
-	if text == "" {
-		return nil
-	}
-	payload := append([]byte{0x03}, []byte(text)...)
-	return BuildID3v24Frame(frameID, payload)
-}
-
-func NormalizeCoverMime(coverMime string) string {
+func normalizeCoverMime(coverMime string) string {
 	coverMime = strings.TrimSpace(strings.ToLower(coverMime))
 	if coverMime == "" {
 		return "image/jpeg"
@@ -719,55 +679,47 @@ func FetchBytesWithMime(urlStr string, source string) ([]byte, string, error) {
 }
 
 func EmbedSongMetadata(audioData []byte, song *model.Song, lyric string, coverData []byte, coverMime string) ([]byte, error) {
-	audioData = StripID3v2Prefix(audioData)
+	body := stripID3v2Prefix(audioData)
 
-	var frames bytes.Buffer
+	tag, err := id3v2.ParseReader(bytes.NewReader(audioData), id3v2.Options{Parse: true})
+	if err != nil {
+		tag = id3v2.NewEmptyTag()
+		tag.SetVersion(4)
+	}
+	defer tag.Close()
 
-	if frame := BuildTextFrame("TIT2", song.Name); len(frame) > 0 {
-		frames.Write(frame)
-	}
-	if frame := BuildTextFrame("TPE1", song.Artist); len(frame) > 0 {
-		frames.Write(frame)
-	}
+	tag.SetDefaultEncoding(id3v2.EncodingUTF8)
+	tag.SetTitle(strings.TrimSpace(song.Name))
+	tag.SetArtist(strings.TrimSpace(song.Artist))
 
 	lyric = strings.TrimSpace(lyric)
 	if lyric != "" {
-		payload := make([]byte, 0, 8+len(lyric))
-		payload = append(payload, 0x03)
-		payload = append(payload, []byte("chi")...)
-		payload = append(payload, 0x00)
-		payload = append(payload, []byte(lyric)...)
-		if frame := BuildID3v24Frame("USLT", payload); len(frame) > 0 {
-			frames.Write(frame)
-		}
+		lyricID := tag.CommonID("Unsynchronised lyrics/text transcription")
+		tag.DeleteFrames(lyricID)
+		tag.AddUnsynchronisedLyricsFrame(id3v2.UnsynchronisedLyricsFrame{
+			Encoding:          id3v2.EncodingUTF8,
+			Language:          "chi",
+			ContentDescriptor: "歌词",
+			Lyrics:            lyric,
+		})
 	}
 
 	if len(coverData) > 0 {
-		mime := NormalizeCoverMime(coverMime)
-		payload := make([]byte, 0, len(mime)+4+len(coverData))
-		payload = append(payload, 0x03)
-		payload = append(payload, []byte(mime)...)
-		payload = append(payload, 0x00)
-		payload = append(payload, 0x03)
-		payload = append(payload, 0x00)
-		payload = append(payload, coverData...)
-		if frame := BuildID3v24Frame("APIC", payload); len(frame) > 0 {
-			frames.Write(frame)
-		}
+		coverID := tag.CommonID("Attached picture")
+		tag.DeleteFrames(coverID)
+		tag.AddAttachedPicture(id3v2.PictureFrame{
+			Encoding:    id3v2.EncodingUTF8,
+			MimeType:    normalizeCoverMime(coverMime),
+			PictureType: id3v2.PTFrontCover,
+			Description: "Cover",
+			Picture:     coverData,
+		})
 	}
 
-	if frames.Len() == 0 {
-		return audioData, nil
+	var out bytes.Buffer
+	if _, err = tag.WriteTo(&out); err != nil {
+		return nil, err
 	}
 
-	var tag bytes.Buffer
-	tag.WriteString("ID3")
-	tag.WriteByte(0x04)
-	tag.WriteByte(0x00)
-	tag.WriteByte(0x00)
-	size := EncodeSyncSafeInt(frames.Len())
-	tag.Write(size[:])
-	tag.Write(frames.Bytes())
-
-	return append(tag.Bytes(), audioData...), nil
+	return append(out.Bytes(), body...), nil
 }

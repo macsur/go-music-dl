@@ -2,6 +2,8 @@ github.com/atotto/clipboard v0.1.4 h1:EH0zSVneZPSuFR11BlR9YppQTVDbh5+16AmcJi4g1z
 github.com/atotto/clipboard v0.1.4/go.mod h1:ZY9tmq7sm5xIbd9bOK4onWV4S6X0u6GY7Vn0Yu86PYI=
 github.com/aymanbagabas/go-osc52/v2 v2.0.1 h1:HwpRHbFMcZLEVr42D4p7XBqjyuxQH5SMiErDT4WkJ2k=
 github.com/aymanbagabas/go-osc52/v2 v2.0.1/go.mod h1:uYgXzlJ7ZpABp8OJ+exZzJJhRNQ2ASbcXHWsFqH8hp8=
+github.com/bogem/id3v2 v1.2.0 h1:hKDF+F1gOgQ5r1QmBCEZUk4MveJbKxCeIDSBU7CQ4oI=
+github.com/bogem/id3v2 v1.2.0/go.mod h1:t78PK5AQ56Q47kizpYiV6gtjj3jfxlz87oFpty8DYs8=
 github.com/bytedance/sonic v1.14.0 h1:/OfKt8HFw0kh2rj8N0F6C/qPGRESq0BbaNZgcNXXzQQ=
 github.com/bytedance/sonic v1.14.0/go.mod h1:WoEbx8WTcFJfzCe0hbmyTGrfjt8PzNEBdxlNUO24NhA=
 github.com/bytedance/sonic/loader v0.3.0 h1:dskwH8edlzNMctoruo8FPTJDF3vLtDT0sXZwvZJyqeA=
@@ -65,14 +67,6 @@ github.com/google/pprof v0.0.0-20250317173921-a4b03ec1a45e h1:ijClszYn+mADRFY17k
 github.com/google/pprof v0.0.0-20250317173921-a4b03ec1a45e/go.mod h1:boTsfXsheKC2y+lKOCMpSfarhxDeIzfZG1jqGcPl3cA=
 github.com/google/uuid v1.6.0 h1:NIvaJDMOsjHA8n1jAhLSgzrAzy1Hgr+hNrb57e+94F0=
 github.com/google/uuid v1.6.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
-github.com/guohuiyuan/music-lib v1.0.4-0.20260205132601-d0f5c749a645 h1:oZV5cEaJ4qY+6XnkWHh1E4gcujDiluYYPPqlCVNivwc=
-github.com/guohuiyuan/music-lib v1.0.4-0.20260205132601-d0f5c749a645/go.mod h1:3DexVzzLf4nVxdz/b1qpRnDJ7y66TjUaQWjTOCwl1ro=
-github.com/guohuiyuan/music-lib v1.0.5-0.20260227094523-f74070fcdfe5 h1:vCiDOs3noXO7ttr/+CLewcgeCNZUKtfRE77gIecAgDk=
-github.com/guohuiyuan/music-lib v1.0.5-0.20260227094523-f74070fcdfe5/go.mod h1:3DexVzzLf4nVxdz/b1qpRnDJ7y66TjUaQWjTOCwl1ro=
-github.com/guohuiyuan/music-lib v1.0.5-0.20260301080023-06a352f8b4f2 h1:HrHP9yiKHAw552sU3D5wrWJS6HTf4V/2EBMeXqcJAvU=
-github.com/guohuiyuan/music-lib v1.0.5-0.20260301080023-06a352f8b4f2/go.mod h1:3DexVzzLf4nVxdz/b1qpRnDJ7y66TjUaQWjTOCwl1ro=
-github.com/guohuiyuan/music-lib v1.0.5-0.20260302071720-9c3346e5b5c9 h1:cv++7KQCi1FUgkvdKDtmmrBWww11ZfouwLmleUi/0FQ=
-github.com/guohuiyuan/music-lib v1.0.5-0.20260302071720-9c3346e5b5c9/go.mod h1:3DexVzzLf4nVxdz/b1qpRnDJ7y66TjUaQWjTOCwl1ro=
 github.com/guohuiyuan/music-lib v1.0.6-0.20260302140311-e9dedb8baa14 h1:sVCnEuQpyoZrevOTWQ8QOck9I1Q8gbVVrYiISpor8FI=
 github.com/guohuiyuan/music-lib v1.0.6-0.20260302140311-e9dedb8baa14/go.mod h1:3DexVzzLf4nVxdz/b1qpRnDJ7y66TjUaQWjTOCwl1ro=
 github.com/hashicorp/golang-lru/v2 v2.0.7 h1:a+bsQ5rvGLjzHuww6tVxozPZFVghXaHOwFs4luLUK2k=
@@ -160,8 +154,10 @@ golang.org/x/sys v0.0.0-20210809222454-d867a43fc93e/go.mod h1:oPkhp1MJrh7nUepCBc
 golang.org/x/sys v0.6.0/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
 golang.org/x/sys v0.37.0 h1:fdNQudmxPjkdUTPnLn5mdQv7Zwvbvpaxqs831goi9kQ=
 golang.org/x/sys v0.37.0/go.mod h1:OgkHotnGiDImocRcuBABYBEXf8A9a87e/uXjp9XT3ks=
+golang.org/x/text v0.3.2/go.mod h1:bEr9sfX3Q8Zfm5fL9x+3itogRgK3+ptLWKqgva+5dAk=
 golang.org/x/text v0.30.0 h1:yznKA/E9zq54KzlzBEAWn1NXSQ8DIp/NYMy88xJjl4k=
 golang.org/x/text v0.30.0/go.mod h1:yDdHFIX9t+tORqspjENWgzaCVXgk0yYnYuSZ8UzzBVM=
+golang.org/x/tools v0.0.0-20180917221912-90fa682c2a6e/go.mod h1:n7NCudcB/nEzxVGmLbDWY5pfWTLqBcC2KZ6jyYvM4mQ=
 golang.org/x/tools v0.38.0 h1:Hx2Xv8hISq8Lm16jvBZ2VQf+RLmbd7wVUsALibYI/IQ=
 golang.org/x/tools v0.38.0/go.mod h1:yEsQ/d/YK8cjh0L6rZlY8tgtlKiBNTL14pGDJPJpYQs=
 google.golang.org/protobuf v1.36.9 h1:w2gp2mA27hUeUzj9Ex9FBjsBm40zfaDtEWow293U7Iw=

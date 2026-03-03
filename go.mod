@@ -3,6 +3,7 @@ module github.com/guohuiyuan/go-music-dl
 go 1.25.1
 
 require (
+	github.com/bogem/id3v2 v1.2.0
 	github.com/charmbracelet/bubbles v0.21.0
 	github.com/charmbracelet/bubbletea v1.3.10
 	github.com/charmbracelet/lipgloss v1.1.0
