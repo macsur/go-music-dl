@@ -223,7 +223,7 @@ TUI 在输入界面按 `w` 直接拉取推荐歌单，然后回车进详情。
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 网易云音乐 | `netease` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 支持 FLAC 无损 |
 | QQ 音乐 | `qq` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 支持 FLAC 无损 |
-| 酷狗音乐 | `kugou` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |  |
+| 酷狗音乐 | `kugou` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 支持普通歌曲 FLAC 无损 |
 | 酷我音乐 | `kuwo` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |  |
 | 咪咕音乐 | `migu` | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | ❌ | ❌ |  |
 | 千千音乐 | `qianqian` | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |  |
@@ -368,6 +368,7 @@ go-music-dl/
 
 * **下载库**: [0xHJK/music-dl](https://github.com/0xHJK/music-dl) - 音乐下载库
 * **下载库**: [CharlesPikachu/musicdl](https://github.com/CharlesPikachu/musicdl) - 音乐下载库
+* **接口设计参考**: [metowolf/Meting](https://github.com/metowolf/Meting) - 多平台音乐聚合与接口封装
 * **无损音乐**: [Suxiaoqinx/Netease_url](https://github.com/Suxiaoqinx/Netease_url) - 网易云音乐 FLAC 无损音乐解析
 * **QQ 音乐**: [Suxiaoqinx/qqmusic_flac](https://github.com/Suxiaoqinx/qqmusic_flac) - QQ 音乐 FLAC 解析
 
