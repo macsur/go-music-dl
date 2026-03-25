@@ -1,6 +1,6 @@
 services:
   music-dl:
-    image: neo/go-music-dl:latest
+    image: image: macttnk/go-music-dl:latest
     container_name: music-dl
     restart: unless-stopped
     ports:
